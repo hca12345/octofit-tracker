@@ -1,4 +1,4 @@
-const codespaceName = import.meta.env.VITE_CODESPACE_NAME
+export const codespaceName = import.meta.env.VITE_CODESPACE_NAME
 
 export const hasCodespaceApi = Boolean(codespaceName)
 export const apiBaseUrl = codespaceName
@@ -17,8 +17,8 @@ export function collectionFromResponse(payload) {
   return []
 }
 
-export async function fetchCollection(component) {
-  const response = await fetch(apiUrl(component))
+export async function fetchCollection(component, endpoint = apiUrl(component)) {
+  const response = await fetch(endpoint)
   if (!response.ok) throw new Error(`Unable to load ${component}.`)
   return collectionFromResponse(await response.json())
 }

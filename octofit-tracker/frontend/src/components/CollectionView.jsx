@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { fetchCollection } from '../api.js'
 
-export function CollectionView({ component, title, eyebrow, description, renderItem, emptyMessage }) {
+export function CollectionView({ component, endpoint, title, eyebrow, description, renderItem, emptyMessage }) {
   const [items, setItems] = useState([])
   const [state, setState] = useState('loading')
   const [error, setError] = useState('')
 
   useEffect(() => {
     let active = true
-    fetchCollection(component)
+    fetchCollection(component, endpoint)
       .then((nextItems) => {
         if (active) {
           setItems(nextItems)
@@ -22,7 +22,7 @@ export function CollectionView({ component, title, eyebrow, description, renderI
         }
       })
     return () => { active = false }
-  }, [component])
+  }, [component, endpoint])
 
   return <section className="view-shell">
     <div className="view-heading"><div><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="lede">{description}</p></div><span className="result-count">{state === 'ready' ? `${items.length} records` : 'Syncing'}</span></div>
